@@ -1,0 +1,24 @@
+설정->시스템->고급시스템설정->환경변수->시스템변수->새로만들기->(변수이름 : Tesseract-OCR , 변수값 : C:\Program Files\Tesseract-OCR) , (변수이름 : TESSDATA_PREFIX , 변수값 : C:\Program Files\Tesseract-OCR\) -> 확인
+
+IDE 켜서 
+!pip install pytesseract
+!pip install opencv-python
+!pip install pillow
+이 3개 실행
+
+import pytesseract
+import cv2
+import os
+
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+result = open("C:/Users/user/Desktop/사진/output.txt","w")
+
+path_dir = './사진'
+file_list = os.listdir(path_dir)
+
+for file_name in file_list :
+    if file_name == "output.txt":
+        continue
+    result.write(pytesseract.image_to_string('./사진/'+file_name,lang='ENG+KOR',config = r'-c preserve_interword_spaces=1 --psm 6 --oem 3 -l kor+eng+osd --tessdata-dir "C:\Program Files\Tesseract-OCR\tessdata"')+'\n')
+result.close()
+
